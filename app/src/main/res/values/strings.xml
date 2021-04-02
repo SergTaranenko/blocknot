@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HW6</string>
+    <string name="app_name">Lesson7</string>
     <string name="first_note_title">Первая заметка</string>
     <string name="first_note_content">Содержание первой заметки</string>
     <string name="second_note_title">Вторая заметка</string>
@@ -8,4 +8,14 @@
     <string name="third_note_content">Содержание третьей заметки</string>
     <string name="note_title">Node title</string>
     <string name="note_content">Содержание</string>
+    <string name="menu_search">Поиск</string>
+    <string name="menu_sort">Вид</string>
+    <string name="menu_send">Отправить</string>
+    <string name="menu_add_photo">Добавить фото</string>
+    <string name="about">О</string>
+    <string name="settings">Настройки</string>
+    <string name="example">автор</string>
+    <string name="icon_android">Icon android</string>
+    <string name="drawer_open">Навигация</string>
+    <string name="drawer_close">Закрыть навигацию</string>
 </resources>
