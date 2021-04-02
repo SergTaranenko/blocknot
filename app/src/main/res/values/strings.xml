@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">Blocknot</string>
+    <string name="app_name">HW6</string>
+    <string name="first_note_title">Первая заметка</string>
+    <string name="first_note_content">Содержание первой заметки</string>
+    <string name="second_note_title">Вторая заметка</string>
+    <string name="second_note_content">Содержание второй заметки</string>
+    <string name="third_note_title">Третья заметка</string>
+    <string name="third_note_content">Содержание третьей заметки</string>
+    <string name="note_title">Node title</string>
+    <string name="note_content">Содержание</string>
 </resources>
