@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/notes"
-        android:name="com.example.blocknot.ListOfNotesFragment"
+        android:name="com.example.blocknot.ui.ListOfNotesFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>
