@@ -18,4 +18,25 @@
     <string name="icon_android">Icon android</string>
     <string name="drawer_open">Навигация</string>
     <string name="drawer_close">Закрыть навигацию</string>
+    <string name="fourth_note_title">Четвертая заметка</string>
+    <string name="fourth_note_content">Содержание четвертой заметки</string>
+    <string name="fifth_note_title">Пятая заметка</string>
+    <string name="fifth_note_content">Содержание пятой заметки</string>
+    <string name="sixth_note_title">Шестая заметка</string>
+    <string name="sixth_note_content">Содержание шестой заметки</string>
+    <string name="seventh_note_title">Седьмая заметка</string>
+    <string name="seventh_note_content">Содержание седьмой заметки</string>
+    <string name="eighth_note_title">Восьмая заметка</string>
+    <string name="eighth_note_content">Содержание восьмой заметки</string>
+    <string name="ninth_note_title">Девятая заметка</string>
+    <string name="ninth_note_content">Содержание девятой заметки</string>
+    <string name="tenth_note_title">Десятая заметка</string>
+    <string name="tenth_note_content">Содержание десятой заметки</string>
+    <string name="eleventh_note_title">Одиннадцатая заметка</string>
+    <string name="eleventh_note_content">Содержание одиннадцатой заметки</string>
+    <string name="twelfth_note_title">Двенадцатая заметка</string>
+    <string name="twelfth_note_content">Содержание двенадцатой заметки</string>
+    <string name="hello_blank_fragment">Привет!</string>
+    <string name="item">элемент</string>
+    <string name="date_of_item">дата элемента</string>
 </resources>

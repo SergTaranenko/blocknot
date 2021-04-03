@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.blocknot.NoteFragment">
+    tools:context="com.example.blocknot.ui.NoteFragment">
 
     <TextView
         android:id="@+id/note_date_of_creation"
