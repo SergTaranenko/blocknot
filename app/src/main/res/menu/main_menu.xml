@@ -7,6 +7,13 @@
         android:orderInCategory="1"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         android:title="@string/menu_search"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_add_note"
+        android:icon="@drawable/note_add_24"
+        android:orderInCategory="2"
+        android:title="@string/menu_add_note"
         app:showAsAction="ifRoom" />
 
     <item
