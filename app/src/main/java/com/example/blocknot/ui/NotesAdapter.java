@@ -9,19 +9,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
-import com.example.blocknot.Note;
+import com.example.blocknot.NotesSource;
 import com.example.blocknot.R;
 
 public class NotesAdapter extends RecyclerView.Adapter<com.example.blocknot.ui.NotesAdapter.ViewHolder> {
-    private Note[] notes;
+    private final Fragment fragment;
     private MyClickListener myClickListener;
+    private NotesSource dataSource;
+    private int menuPosition;
 
-    public NotesAdapter(Note[] notes) {
-        this.notes = notes;
+    public NotesAdapter(NotesSource dataSource, Fragment fragment) {
+        this.dataSource = dataSource;
+        this.fragment = fragment;
+    }
+
+    public int getMenuPosition() {
+        return menuPosition;
     }
 
     public void setOnItemClickListener(MyClickListener itemClickListener) {
@@ -30,28 +35,25 @@ public class NotesAdapter extends RecyclerView.Adapter<com.example.blocknot.ui.N
 
     @NonNull
     @Override
-    public com.example.blocknot.ui.NotesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull com.example.blocknot.ui.NotesAdapter.ViewHolder holder, int position) {
-        holder.getItemLayout().setBackgroundColor(notes[position].getColor());
-        holder.getTitleTextView().setText(notes[position].getTitle());
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy",
-                Locale.getDefault());
-        holder.getDateTextView().setText(formatter.format(notes[position].getCreationDate().getTime()));
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.getItemLayout().setBackgroundColor(dataSource.getNote(position).getColor());
+        holder.getTitleTextView().setText(dataSource.getNote(position).getTitle());
+        holder.getDateTextView().setText(dataSource.getNote(position).getCreationDate());
     }
 
     @Override
-    public int getItemCount() {
-        return notes.length;
+    public int getItemCount() {return dataSource.size();
     }
 
     public interface MyClickListener {
-        void onItemClick(int position, Note note);
+        void onItemClick(int position, com.example.blocknot.Note note);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -60,16 +62,35 @@ public class NotesAdapter extends RecyclerView.Adapter<com.example.blocknot.ui.N
         private TextView titleTextView;
         private TextView dateTextView;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             cardView = (CardView) itemView;
             itemLayout = itemView.findViewById(R.id.element_of_recycler_view);
             titleTextView = itemView.findViewById(R.id.first_tv_of_item);
             dateTextView = itemView.findViewById(R.id.second_tv_of_item);
+
+            registerContextMenu(itemView);
+
             itemLayout.setOnClickListener(v -> {
                 int position = getAdapterPosition();
-                myClickListener.onItemClick(position, notes[position]);
+                myClickListener.onItemClick(position, dataSource.getNote(position));
             });
+
+            itemLayout.setOnLongClickListener(v -> {
+                menuPosition = getLayoutPosition();
+                itemView.showContextMenu();
+                return true;
+            });
+        }
+
+        private void registerContextMenu(@NonNull View itemView) {
+            if (fragment != null) {
+                itemView.setOnLongClickListener(v -> {
+                    menuPosition = getLayoutPosition();
+                    return false;
+                });
+                fragment.registerForContextMenu(itemView);
+            }
         }
 
         public LinearLayout getItemLayout() {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lesson7</string>
+    <string name="app_name">Блокнот(самый крутой)</string>
     <string name="first_note_title">Первая заметка</string>
     <string name="first_note_content">Содержание первой заметки</string>
     <string name="second_note_title">Вторая заметка</string>
@@ -39,4 +39,6 @@
     <string name="hello_blank_fragment">Привет!</string>
     <string name="item">элемент</string>
     <string name="date_of_item">дата элемента</string>
+    <string name="menu_add_note">Добавить заметку</string>
+    <string name="menu_delete_note">Удалить заметку</string>
 </resources>
