@@ -41,4 +41,10 @@
     <string name="date_of_item">дата элемента</string>
     <string name="menu_add_note">Добавить заметку</string>
     <string name="menu_delete_note">Удалить заметку</string>
+    <string name="continue_">Продолжить</string>
+    <string name="edit_title_hint">Имя заметки</string>
+    <string name="edit_description_hint">Описание заметки</string>
+    <string name="delete_note_dialog_button_no">Нет</string>
+    <string name="confirm_delete_button">Да</string>
+    <string name="exclamation">Вы уверены, что хотите удалить заметку?</string>
 </resources>

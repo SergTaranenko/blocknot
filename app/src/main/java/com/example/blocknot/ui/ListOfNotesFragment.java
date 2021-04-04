@@ -20,8 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Objects;
 
+import com.example.blocknot.DeleteDialogFragment;
 import com.example.blocknot.MainActivity;
 import com.example.blocknot.Navigation;
+import com.example.blocknot.OnDeleteDialogListener;
 import com.example.blocknot.R;
 import com.example.blocknot.data.NotesSourceFirebase;
 import com.example.blocknot.data.NotesSourceInterface;
@@ -106,8 +108,23 @@ public class ListOfNotesFragment extends Fragment {
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int position = adapter.getMenuPosition();
         if (item.getItemId() == R.id.menu_delete_note) {
-            data.deleteNote(position);
-            adapter.notifyItemRemoved(position);
+            DeleteDialogFragment deleteDlgFragment = new DeleteDialogFragment();
+            deleteDlgFragment.setCancelable(false);
+            deleteDlgFragment.setOnDialogListener(new OnDeleteDialogListener() {
+                @Override
+                public void onDelete() {
+                    data.deleteNote(position);
+                    adapter.notifyItemRemoved(position);
+                    deleteDlgFragment.dismiss();
+                }
+
+                @Override
+                public void onCancelDelete() {
+                    deleteDlgFragment.dismiss();
+                }
+            });
+            deleteDlgFragment.show(requireActivity().getSupportFragmentManager(),
+                    "DeleteFragmentTag");
             return true;
         }
         return super.onContextItemSelected(item);
