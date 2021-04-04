@@ -17,57 +17,45 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.Objects;
 
+import com.example.blocknot.MainActivity;
+import com.example.blocknot.Navigation;
 import com.example.blocknot.R;
-import com.example.blocknot.NotesSource;
+import com.example.blocknot.data.NotesSourceFirebase;
+import com.example.blocknot.data.NotesSourceInterface;
 import com.example.blocknot.observe.Publisher;
-
-import static com.example.blocknot.ui.NoteFragment.CURRENT_DATA;
-import static com.example.blocknot.ui.NoteFragment.CURRENT_NOTE;
-
-
 
 public class ListOfNotesFragment extends Fragment {
 
-    private com.example.blocknot.Note currentNote;
-    private NotesSource data;
-    private NotesAdapter adapter;
+    private NotesSourceInterface data;
+    private com.example.blocknot.ui.NotesAdapter adapter;
     private RecyclerView recyclerView;
-    private com.example.blocknot.Navigation navigation;
+    private Navigation navigation;
     private Publisher publisher;
-    private boolean moveToLastPosition;
+    private boolean moveToFirstPosition;
 
-    public static ListOfNotesFragment newInstance() {
-        return new ListOfNotesFragment();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (data == null) {
-            data = new NotesSource(getResources()).init();
-        }
+    public static com.example.blocknot.ui.ListOfNotesFragment newInstance() {
+        return new com.example.blocknot.ui.ListOfNotesFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_list_of_notes, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_list_of_notes, container, false);
         recyclerView = view.findViewById(R.id.notes_recycler_view);
+        data = new NotesSourceFirebase().init(notesData -> adapter.notifyDataSetChanged());
         initRecyclerView(recyclerView, data);
         setHasOptionsMenu(true);
+        adapter.setDataSource(data);
+        return view;
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        com.example.blocknot.MainActivity activity = (com.example.blocknot.MainActivity) context;
+        MainActivity activity = (MainActivity) context;
         navigation = activity.getNavigation();
         publisher = activity.getPublisher();
     }
@@ -79,50 +67,31 @@ public class ListOfNotesFragment extends Fragment {
         super.onDetach();
     }
 
-    private void initRecyclerView(RecyclerView recyclerView, NotesSource data) {
+    private void initRecyclerView(RecyclerView recyclerView, NotesSourceInterface data) {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        if (moveToLastPosition) {
-            recyclerView.smoothScrollToPosition(data.size() - 1);
-            moveToLastPosition = false;
-        }
+        adapter = new com.example.blocknot.ui.NotesAdapter(this);
+        recyclerView.setAdapter(adapter);
+        DividerItemDecoration itemDecoration = new DividerItemDecoration
+                (requireContext(), LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(Objects.requireNonNull
+                (ContextCompat.getDrawable(requireContext(), R.drawable.separator)));
+        recyclerView.addItemDecoration(itemDecoration);
 
-        adapter = new NotesAdapter(data, this);
+        if (moveToFirstPosition && data.size() > 0) {
+            recyclerView.scrollToPosition(0);
+            moveToFirstPosition = false;
+        }
         adapter.setOnItemClickListener((position, note) -> {
-            navigation.addFragment(NoteFragment.newInstance(data.getNote(position)),
+            navigation.addFragment(com.example.blocknot.ui.NoteFragment.newInstance(data.getNote(position)),
                     true);
             publisher.subscribe(note1 -> {
                 data.changeNote(position, note1);
                 adapter.notifyItemChanged(position);
             });
         });
-
-        recyclerView.setAdapter(adapter);
-        DividerItemDecoration itemDecoration = new DividerItemDecoration
-                (requireContext(), LinearLayoutManager.VERTICAL);
-        itemDecoration.setDrawable(Objects.requireNonNull
-                (ContextCompat.getDrawable(getContext(), R.drawable.separator)));
-        recyclerView.addItemDecoration(itemDecoration);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable(CURRENT_NOTE, currentNote);
-        outState.putParcelable(CURRENT_DATA, data);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            data = savedInstanceState.getParcelable(CURRENT_DATA);
-            currentNote = savedInstanceState.getParcelable(CURRENT_NOTE);
-        } else {
-            currentNote = data.getNote(0);
-        }
     }
 
     @Override
@@ -146,13 +115,21 @@ public class ListOfNotesFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        MenuItem search = menu.findItem(R.id.menu_search);
+        MenuItem sort = menu.findItem(R.id.menu_sort);
         MenuItem addNote = menu.findItem(R.id.menu_add_note);
+        MenuItem send = menu.findItem(R.id.menu_send);
+        MenuItem addPhoto = menu.findItem(R.id.menu_add_photo);
+        search.setVisible(true);
+        sort.setVisible(true);
+        send.setVisible(false);
+        addPhoto.setVisible(false);
         addNote.setOnMenuItemClickListener(item -> {
-            navigation.addFragment(NoteFragment.newInstance(), true);
+            navigation.addFragment(com.example.blocknot.ui.NoteFragment.newInstance(), true);
             publisher.subscribe(note -> {
                 data.addNote(note);
                 adapter.notifyItemInserted(data.size() - 1);
-                moveToLastPosition = true;
+                moveToFirstPosition = true;
             });
             return true;
         });

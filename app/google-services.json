@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "452531678224",
+    "project_id": "blocknot-59ea9",
+    "storage_bucket": "blocknot-59ea9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452531678224:android:16c2df222b25c7921c2e95",
+        "android_client_info": {
+          "package_name": "com.example.blocknot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "452531678224-hn3lkrd90atqss9sele97ubmog606e2r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkaYBu9U3LEs4V5aVbJpNiexh5bLaZaTs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "452531678224-hn3lkrd90atqss9sele97ubmog606e2r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

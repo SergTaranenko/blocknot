@@ -1,6 +1,6 @@
 package com.example.blocknot.observe;
 
-import com.example.blocknot.Note;
+import com.example.blocknot.data.Note;
 
 import java.util.ArrayList;
 import java.util.List;
